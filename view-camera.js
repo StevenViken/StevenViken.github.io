@@ -34,56 +34,13 @@ document.addEventListener('readystatechange', (event) => {
 						}
 				    if(media_device.kind === 'videoinput') {
 					   	cameras = cameras.concat(media_device.deviceId);
+						console.log(media_device);
+						document.getElementById('myDiv').textContent = cameras.length;
 						}
 					})
 		    })
 		  }
 		}
-
-
-		let lastTap = 0;
-
-		function handleDoubleTap() {
-			console.log("double tapped");
-			if(location.href.includes('&debug')) {
-				console.log('clicked on video');
-				console.log(cameras);
-				console.log(camId);
-				console.log(currentStream);
-			}
-			if((camId + 1) < cameras.length) {
-				camId = camId +1;
-			} else {
-				camId = 0;
-			}
-			if(cameras.length > 1) {
-				if(navigator.mediaDevices || navigator.mediaDevices.enumerateDevices) {
-					currentStream.getTracks().forEach(track => {
-						track.stop();
-					});
-					video.srcObject = null;
-					navigator.mediaDevices.getUserMedia({
-						audio: false,
-						video: {
-								deviceId: {
-									exact: cameras[camId]
-								}
-							}
-					}).then(successCallback).catch(errorCallback);
-				}
-			}
-		}
-
-		video.addEventListener('dblclick', handleDoubleTap);
-
-		video.addEventListener('touchend', event => {
-			const currentTime = new Date().getTime();
-			const tapLength = currentTime - lastTap;
-			if (tapLength < 500 && tapLength > 0) {
-				handleDoubleTap();
-			}
-			lastTap = currentTime;
-		});
 
 		video.addEventListener('dblclick',event => {
 			console.log("double clicked")
