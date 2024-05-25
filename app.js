@@ -20,7 +20,9 @@ async function startCamera(deviceId) {
     }
     const constraints = {
         video: {
-            deviceId: { exact: deviceId }
+            deviceId: { exact: deviceId },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
         }
     };
     try {
