@@ -1,0 +1,22 @@
+video {
+  max-height: 80%;
+  min-width: 80%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  object-fit: cover;
+}
+html,body {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  top: 90%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
