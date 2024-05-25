@@ -1,17 +1,31 @@
 const videoElement = document.getElementById('video');
-let currentCameraIndex = 0;
+const cameraSelector = document.getElementById('cameraSelector');
 let devices = [];
 
 async function getCameras() {
     try {
         const deviceInfos = await navigator.mediaDevices.enumerateDevices();
         devices = deviceInfos.filter(deviceInfo => deviceInfo.kind === 'videoinput');
+        populateCameraSelector();
         if (devices.length > 0) {
-            startCamera(devices[currentCameraIndex].deviceId);
+            startCamera(devices[0].deviceId);
         }
     } catch (error) {
         console.error('Error accessing cameras: ', error);
     }
+}
+
+function populateCameraSelector() {
+    cameraSelector.innerHTML = '';
+    devices.forEach((device, index) => {
+        const option = document.createElement('option');
+        option.value = device.deviceId;
+        option.text = device.label || `Camera ${index + 1}`;
+        cameraSelector.appendChild(option);
+    });
+    cameraSelector.addEventListener('change', () => {
+        startCamera(cameraSelector.value);
+    });
 }
 
 async function startCamera(deviceId) {
@@ -33,10 +47,5 @@ async function startCamera(deviceId) {
         console.error('Error starting camera: ', error);
     }
 }
-
-videoElement.addEventListener('click', () => {
-    currentCameraIndex = (currentCameraIndex + 1) % devices.length;
-    startCamera(devices[currentCameraIndex].deviceId);
-});
 
 getCameras();
